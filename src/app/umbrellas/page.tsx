@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import Map from '@/components/Map'
 import Link from 'next/link'
-import { Umbrella, List, MapPin, Trash2, Home, X } from 'lucide-react'
+import { Umbrella, List, MapPin, Home, X } from 'lucide-react'
 
 interface UmbrellaLocation {
   id: string
@@ -12,6 +12,7 @@ interface UmbrellaLocation {
   latitude: number
   longitude: number
   scanned_at: string
+  address?: string
 }
 
 function UmbrellasPage() {
@@ -25,6 +26,45 @@ function UmbrellasPage() {
     fetchLocations()
   }, [])
 
+  async function getAddressFromCoordinates(lat: number, lng: number): Promise<string> {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ja&zoom=18&addressdetails=1`
+      )
+      const data = await response.json()
+      
+      if (data && data.display_name) {
+        const address = data.address
+        let formattedAddress = ''
+        
+        if (address) {
+          const parts = []
+          if (address.state) parts.push(address.state)
+          if (address.city || address.town || address.village) {
+            parts.push(address.city || address.town || address.village)
+          }
+          if (address.suburb) parts.push(address.suburb)
+          if (address.quarter || address.neighbourhood) {
+            parts.push(address.quarter || address.neighbourhood)
+          }
+          if (address.house_number && address.road) {
+            parts.push(`${address.road}${address.house_number}`)
+          } else if (address.road) {
+            parts.push(address.road)
+          }
+          
+          formattedAddress = parts.join('')
+        }
+        
+        return formattedAddress || data.display_name.split(',')[0]
+      }
+      return '住所不明'
+    } catch (error) {
+      console.error('住所取得エラー:', error)
+      return '住所取得失敗'
+    }
+  }
+
   async function fetchLocations() {
     try {
       setIsLoading(true)
@@ -34,31 +74,21 @@ function UmbrellasPage() {
         .order('scanned_at', { ascending: false })
 
       if (error) throw error
-      setLocations(data || [])
+      
+      if (data) {
+        const locationsWithAddress = await Promise.all(
+          data.map(async (location) => {
+            const address = await getAddressFromCoordinates(location.latitude, location.longitude)
+            return { ...location, address }
+          })
+        )
+        setLocations(locationsWithAddress)
+      }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('位置情報の取得に失敗しました')
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  async function deleteLocation(id: string) {
-    if (!confirm('この記録を削除しますか？')) return
-
-    try {
-      const { error } = await supabase
-        .from('umbrella_locations')
-        .delete()
-        .eq('id', id)
-
-      if (error) throw error
-      
-      setLocations(locations.filter(loc => loc.id !== id))
-      setSelectedLocation(null)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      alert('削除に失敗しました')
     }
   }
 
@@ -79,39 +109,38 @@ function UmbrellasPage() {
       <div className="max-w-6xl mx-auto">
         {/* ヘッダー */}
         <div className="mb-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div className="flex items-center gap-3">
-            </div>
-            <div className="flex gap-2">
-              <Link href="/" className="btn btn-home">
-                <Home className="w-4 h-4 mr-2" />
-                ホーム
-              </Link>
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                <button
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
-                    viewMode === 'list'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                  onClick={() => setViewMode('list')}
-                >
-                  <List className="w-4 h-4" />
-                  リスト
-                </button>
-                <button
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2 ${
-                    viewMode === 'map'
-                      ? 'bg-white text-gray-900 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                  onClick={() => setViewMode('map')}
-                >
-                  <MapPin className="w-4 h-4" />
-                  地図
-                </button>
-              </div>
-            </div>
+          <div className="flex justify-end">
+            <Link href="/" className="p-2 text-gray-500 hover:text-gray-700 transition-colors">
+              <Home className="w-5 h-5" />
+            </Link>
+          </div>
+          
+          {/* タブ切り替え */}
+          <div className="border-b border-gray-200 mt-6">
+            <nav className="flex space-x-8">
+              <button
+                className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
+                  viewMode === 'list'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+                onClick={() => setViewMode('list')}
+              >
+                <List className="w-4 h-4" />
+                リスト
+              </button>
+              <button
+                className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
+                  viewMode === 'map'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+                onClick={() => setViewMode('map')}
+              >
+                <MapPin className="w-4 h-4" />
+                地図
+              </button>
+            </nav>
           </div>
         </div>
 
@@ -158,10 +187,10 @@ function UmbrellasPage() {
                         <thead>
                           <tr>
                             <th>傘ID</th>
+                            <th>住所</th>
                             <th>緯度</th>
                             <th>経度</th>
                             <th>記録日時</th>
-                            <th>操作</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -169,6 +198,9 @@ function UmbrellasPage() {
                             <tr key={location.id}>
                               <td className="font-medium text-blue-600">
                                 {location.umbrella_id}
+                              </td>
+                              <td className="text-sm max-w-xs">
+                                {location.address || '取得中...'}
                               </td>
                               <td className="font-mono text-sm">
                                 {location.latitude.toFixed(6)}
@@ -178,15 +210,6 @@ function UmbrellasPage() {
                               </td>
                               <td>
                                 {new Date(location.scanned_at).toLocaleString()}
-                              </td>
-                              <td>
-                                <button
-                                  onClick={() => deleteLocation(location.id)}
-                                  className="btn btn-danger text-xs px-3 py-1 flex items-center gap-1"
-                                >
-                                  <Trash2 className="w-3 h-3" />
-                                  削除
-                                </button>
                               </td>
                             </tr>
                           ))}
@@ -237,6 +260,12 @@ function UmbrellasPage() {
                       <h4 className="font-semibold text-gray-700 mb-2">位置情報</h4>
                       <div className="space-y-2 text-sm">
                         <div>
+                          <span className="text-gray-500">住所:</span>
+                          <span className="ml-2">
+                            {selectedLocation.address || '取得中...'}
+                          </span>
+                        </div>
+                        <div>
                           <span className="text-gray-500">緯度:</span>
                           <span className="ml-2 font-mono">
                             {selectedLocation.latitude.toFixed(6)}
@@ -251,14 +280,7 @@ function UmbrellasPage() {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4 flex gap-2">
-                    <button
-                      onClick={() => deleteLocation(selectedLocation.id)}
-                      className="btn btn-danger flex items-center gap-2"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      この記録を削除
-                    </button>
+                  <div className="mt-4">
                     <button
                       onClick={() => setSelectedLocation(null)}
                       className="btn btn-close flex items-center gap-2"
