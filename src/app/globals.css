@@ -1,26 +1,345 @@
-@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
 
+/* 雨〜晴れの雰囲気のカラーパレット */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 雨の色（濃い青系） */
+  --rain-dark: #1e3a8a;
+  --rain-medium: #1d4ed8;
+  --rain-light: #3b82f6;
+
+  /* 雲の色（グレー系） */
+  --cloud-dark: #374151;
+  --cloud-medium: #6b7280;
+  --cloud-light: #9ca3af;
+  --cloud-lighter: #d1d5db;
+  --cloud-lightest: #f3f4f6;
+
+  /* 晴れの色（水色〜明るい青系） */
+  --sky-light: #e0f2fe;
+  --sky-medium: #bae6fd;
+  --sky-bright: #7dd3fc;
+  --sky-vivid: #38bdf8;
+
+  /* 太陽の色 */
+  --sun-yellow: #fbbf24;
+  --sun-orange: #f59e0b;
+
+  /* 機能色 */
+  --success-light: #dcfce7;
+  --success-medium: #22c55e;
+  --error-light: #fef2f2;
+  --error-medium: #ef4444;
+  --warning-light: #fefbeb;
+  --warning-medium: #f59e0b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ベーススタイル */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #FFFFFF;
+  min-height: 100vh;
+  color: var(--rain-dark);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 雨〜晴れのグラデーション背景 */
+.gradient-bg {
+  background: linear-gradient(135deg, var(--rain-medium) 0%, var(--sky-vivid) 100%);
+}
+
+.gradient-bg-light {
+  background: linear-gradient(135deg, var(--sky-light) 0%, white 100%);
+}
+
+.gradient-rain {
+  background: linear-gradient(135deg, var(--rain-dark) 0%, var(--rain-medium) 100%);
+}
+
+.gradient-sky {
+  background: linear-gradient(135deg, var(--sky-medium) 0%, var(--sky-bright) 100%);
+}
+
+/* フラットデザインのカード */
+.card {
+  background: white;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  background: #f9fafb;
+}
+
+.card-content {
+  padding: 2rem;
+}
+
+/* フラットボタン */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--sky-vivid);
+  color: white;
+  border-color: var(--sky-vivid);
+}
+
+.btn-primary:hover {
+  background: var(--rain-medium);
+  border-color: var(--rain-medium);
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: var(--error-medium);
+  color: white;
+  border-color: var(--error-medium);
+}
+
+.btn-danger:hover {
+  background: var(--rain-dark);
+  border-color: var(--rain-dark);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: var(--cloud-lightest);
+  color: var(--cloud-dark);
+  border-color: var(--cloud-lighter);
+}
+
+.btn-secondary:hover {
+  background: var(--sky-light);
+  border-color: var(--sky-medium);
+  transform: translateY(-2px);
+}
+
+/* 閉じるボタン */
+.btn-close {
+  background: transparent;
+  color: var(--cloud-dark);
+  border: 1px solid var(--cloud-lighter);
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.btn-close:hover {
+  background: var(--error-light);
+  border-color: var(--error-medium);
+  color: var(--error-medium);
+}
+
+/* ホームへ戻るボタン */
+.btn-home {
+  background: var(--cloud-lightest);
+  color: var(--cloud-dark);
+  border: 1px solid var(--cloud-lighter);
+  border-radius: 5px;
+}
+
+.btn-home:hover {
+  background: var(--sky-light);
+  border-color: var(--sky-medium);
+  color: var(--rain-dark);
+}
+
+/* フラットテーブル */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--rain-dark);
+  background: var(--sky-light);
+  border-bottom: 2px solid var(--sky-medium);
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--sky-light);
+}
+
+.table tr:hover {
+  background: var(--sky-light);
+}
+
+.table tr:nth-child(even) {
+  background: rgba(186, 230, 253, 0.3);
+}
+
+/* 入力フィールド */
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--sky-medium);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease-in-out;
+  background: white;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--rain-medium);
+  background: var(--sky-light);
+}
+
+/* ローディングアニメーション（雨滴風） */
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--sky-light);
+  border-top: 3px solid var(--sky-vivid);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 雨滴アニメーション */
+.raindrop {
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, var(--sky-vivid));
+  border-radius: 0 0 50% 50%;
+  animation: fall 1s linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}
+
+/* アラート（フラットデザイン） */
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid transparent;
+}
+
+.alert-success {
+  background: var(--success-light);
+  color: var(--rain-dark);
+  border-color: var(--success-medium);
+}
+
+.alert-error {
+  background: var(--error-light);
+  color: var(--rain-dark);
+  border-color: var(--error-medium);
+}
+
+.alert-warning {
+  background: var(--warning-light);
+  color: var(--rain-dark);
+  border-color: var(--warning-medium);
+}
+
+/* 天気アイコンのアニメーション */
+.weather-icon {
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* レスポンシブ */
+@media (max-width: 640px) {
+  .card {
+    border-radius: 0.5rem;
+    margin: 0.5rem;
+    border-width: 1px;
+  }
+
+  .card-header,
+  .card-content {
+    padding: 1rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* 特別効果：雨粒パターン */
+.rain-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(2px 10px, var(--sky-bright) 50%, transparent 50%),
+    radial-gradient(2px 8px, var(--sky-vivid) 50%, transparent 50%);
+  background-size: 20px 40px, 30px 50px;
+  background-position: 0 0, 15px 25px;
+  opacity: 0.1;
+  animation: rain-fall 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }
