@@ -117,7 +117,7 @@ function UmbrellasPage() {
         <div style={{ 
           backgroundColor: '#ffffff', 
           borderRadius: '12px', 
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
+          border: '1pt solid #e5e7eb',
           padding: '24px',
           marginBottom: '24px'
         }}>
@@ -216,7 +216,7 @@ function UmbrellasPage() {
               <div style={{ 
                 backgroundColor: '#ffffff', 
                 borderRadius: '12px', 
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                border: '1pt solid #e5e7eb',
                 marginBottom: '32px'
               }}>
                 <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
@@ -250,7 +250,7 @@ function UmbrellasPage() {
               <div style={{ 
                 backgroundColor: '#ffffff', 
                 borderRadius: '12px', 
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                border: '1pt solid #e5e7eb'
               }}>
                 <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
                   <h2 style={{ 
@@ -382,7 +382,7 @@ function UmbrellasPage() {
               <div style={{ 
                 backgroundColor: '#ffffff', 
                 borderRadius: '12px', 
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                border: '1pt solid #e5e7eb',
                 marginTop: '24px'
               }}>
                 <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
