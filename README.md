@@ -96,14 +96,17 @@ Next.jsアプリをデプロイする最も簡単な方法は、Next.jsの制作
 ### Vercelでのデプロイ手順
 
 1. **GitHubリポジトリをVercelに接続**
-2. **環境変数の設定**
+
+2. **環境変数の設定（重要！）**
    
-   Vercelダッシュボードの「Settings」→「Environment Variables」で以下を設定：
+   Vercelダッシュボードの「Settings」→「Environment Variables」で以下を**必ず**設定：
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
+
+   ⚠️ **注意**: この設定を忘れると「Missing Supabase environment variables」エラーでビルドが失敗します。
 
 3. **Supabase側の設定**
    
@@ -116,10 +119,15 @@ Next.jsアプリをデプロイする最も簡単な方法は、Next.jsの制作
    
    環境変数設定後、Vercelで再デプロイしてください。
 
-### 重要な注意点
+### トラブルシューティング
 
-- 本番環境では必ずHTTPS（Vercel自動提供）
-- 位置情報取得にはHTTPS環境が必須
-- NFCタグには本番ドメイン（`https://your-project.vercel.app/scan?umbrellaId=XXX`）を設定
+**ビルドエラー「Missing Supabase environment variables」が発生する場合:**
+1. Vercelダッシュボードで環境変数が正しく設定されているか確認
+2. 環境変数名のタイプミスがないか確認（`NEXT_PUBLIC_`プレフィックス必須）
+3. 設定後に再デプロイを実行
+
+**位置情報が取得できない場合:**
+- HTTPSが有効になっているか確認（Vercelでは自動的に有効）
+- ブラウザで位置情報の許可が与えられているか確認
 
 詳細については、[Next.jsデプロイメントドキュメント](https://nextjs.org/docs/app/building-your-application/deploying)を確認してください。

@@ -6,6 +6,9 @@ import { supabase } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { MapPin, AlertCircle, CheckCircle, Info, RotateCcw } from 'lucide-react'
 
+// 動的レンダリングを強制
+export const dynamic = 'force-dynamic'
+
 function ScanPageContent() {
   const searchParams = useSearchParams()
   const umbrellaId = searchParams.get('umbrellaId')
