@@ -114,43 +114,97 @@ function ScanPage() {
   }, [])
 
   return (
-    <div className="min-h-screen p-4 bg-white">
-      <div className="max-w-md mx-auto">
-        <div className="card">
-          <div className="card-header text-center">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">
+    <div style={{ minHeight: '100vh', padding: '16px', backgroundColor: 'white' }}>
+      <div style={{ maxWidth: '448px', margin: '0 auto' }}>
+        <div style={{ 
+          backgroundColor: '#ffffff', 
+          borderRadius: '12px', 
+          border: '1pt solid #e5e7eb'
+        }}>
+          <div style={{ 
+            padding: '20px 24px', 
+            borderBottom: '1px solid #e5e7eb', 
+            textAlign: 'center' 
+          }}>
+            <h1 style={{ 
+              fontSize: '24px', 
+              fontWeight: 'bold', 
+              marginBottom: '8px',
+              margin: 0
+            }}>
               傘の位置記録
             </h1>
             {umbrellaId && (
-              <p className="text-blue-600 font-medium">
+              <p style={{ 
+                color: '#2563eb', 
+                fontWeight: '500',
+                margin: 0,
+                marginTop: '8px'
+              }}>
                 傘ID: {umbrellaId}
               </p>
             )}
           </div>
           
-          <div className="card-content">
+          <div style={{ padding: '24px' }}>
             {!isLoading && !error && !success && !showManualInput && (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">📍</div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}>📍</div>
+                <h3 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: '600', 
+                  marginBottom: '16px',
+                  margin: 0
+                }}>
                   位置情報を記録しますか？
                 </h3>
-                <div className="space-y-3">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <button 
                     onClick={tryAutoLocation}
-                    className="btn btn-primary w-full"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      backgroundColor: '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'backgroundColor 0.2s'
+                    }}
                   >
                     自動で位置取得
                   </button>
                   <button 
                     onClick={() => setShowManualInput(true)}
-                    className="btn btn-secondary w-full"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      backgroundColor: '#f3f4f6',
+                      color: '#374151',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'backgroundColor 0.2s'
+                    }}
                   >
                     手動で位置入力
                   </button>
                 </div>
-                <div className="mt-4 bg-blue-50 p-3 rounded-lg">
-                  <p className="text-xs text-blue-700">
+                <div style={{ 
+                  marginTop: '16px', 
+                  backgroundColor: '#eff6ff', 
+                  padding: '12px', 
+                  borderRadius: '8px' 
+                }}>
+                  <p style={{ 
+                    fontSize: '12px', 
+                    color: '#1d4ed8',
+                    margin: 0
+                  }}>
                     💡 自動取得は位置情報の許可が必要です
                   </p>
                 </div>
@@ -158,13 +212,25 @@ function ScanPage() {
             )}
 
             {showManualInput && !success && (
-              <div className="py-8">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+              <div style={{ padding: '32px 0' }}>
+                <h3 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: '600', 
+                  marginBottom: '16px', 
+                  textAlign: 'center',
+                  margin: 0
+                }}>
                   位置情報を入力
                 </h3>
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label style={{ 
+                      display: 'block', 
+                      fontSize: '14px', 
+                      fontWeight: '500', 
+                      color: '#374151', 
+                      marginBottom: '4px' 
+                    }}>
                       緯度
                     </label>
                     <input
@@ -173,11 +239,24 @@ function ScanPage() {
                       placeholder="例: 35.6762"
                       value={manualLat}
                       onChange={(e) => setManualLat(e.target.value)}
-                      className="input"
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                        fontSize: '16px',
+                        boxSizing: 'border-box'
+                      }}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label style={{ 
+                      display: 'block', 
+                      fontSize: '14px', 
+                      fontWeight: '500', 
+                      color: '#374151', 
+                      marginBottom: '4px' 
+                    }}>
                       経度
                     </label>
                     <input
@@ -186,19 +265,48 @@ function ScanPage() {
                       placeholder="例: 139.6503"
                       value={manualLng}
                       onChange={(e) => setManualLng(e.target.value)}
-                      className="input"
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                        fontSize: '16px',
+                        boxSizing: 'border-box'
+                      }}
                     />
                   </div>
                   <button
                     onClick={getCurrentLocationForManual}
-                    className="btn btn-secondary w-full text-sm"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      backgroundColor: '#f3f4f6',
+                      color: '#374151',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'backgroundColor 0.2s'
+                    }}
                   >
                     現在位置を取得して入力
                   </button>
                   <button
                     onClick={handleManualSave}
                     disabled={isLoading}
-                    className="btn btn-primary w-full"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      backgroundColor: isLoading ? '#9ca3af' : '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      cursor: isLoading ? 'not-allowed' : 'pointer',
+                      transition: 'backgroundColor 0.2s'
+                    }}
                   >
                     {isLoading ? '保存中...' : '位置を記録'}
                   </button>
@@ -207,7 +315,18 @@ function ScanPage() {
                       setShowManualInput(false)
                       setError(null)
                     }}
-                    className="btn btn-secondary w-full"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      backgroundColor: '#f3f4f6',
+                      color: '#374151',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'backgroundColor 0.2s'
+                    }}
                   >
                     戻る
                   </button>
@@ -216,34 +335,76 @@ function ScanPage() {
             )}
             
             {isLoading && (
-              <div className="text-center py-8">
-                <div className="spinner mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  border: '4px solid #f3f4f6',
+                  borderTop: '4px solid #3b82f6',
+                  borderRadius: '50%',
+                  animation: 'spin 1s linear infinite',
+                  margin: '0 auto 16px'
+                }}></div>
+                <h3 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: '600', 
+                  marginBottom: '8px',
+                  margin: 0
+                }}>
                   位置情報を記録中...
                 </h3>
-                <p className="text-gray-600 text-sm">
+                <p style={{ 
+                  color: '#6b7280', 
+                  fontSize: '14px',
+                  margin: 0,
+                  marginTop: '8px'
+                }}>
                   しばらくお待ちください。
                 </p>
               </div>
             )}
             
             {error && (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">❌</div>
-                <h3 className="text-lg font-semibold text-red-600 mb-2">
+              <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
+                <h3 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: '600', 
+                  color: '#dc2626', 
+                  marginBottom: '8px',
+                  margin: 0
+                }}>
                   エラーが発生しました
                 </h3>
-                <div className="alert alert-error mb-4">
+                <div style={{ 
+                  backgroundColor: '#fef2f2', 
+                  border: '1px solid #fecaca', 
+                  borderRadius: '8px', 
+                  padding: '12px',
+                  color: '#dc2626',
+                  marginBottom: '16px'
+                }}>
                   {error}
                 </div>
-                <div className="space-y-2">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {!showManualInput && (
                     <button 
                       onClick={() => {
                         setError(null)
                         setShowManualInput(true)
                       }}
-                      className="btn btn-primary w-full"
+                      style={{
+                        width: '100%',
+                        padding: '12px 24px',
+                        backgroundColor: '#3b82f6',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '16px',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        transition: 'backgroundColor 0.2s'
+                      }}
                     >
                       手動で位置入力
                     </button>
@@ -252,12 +413,35 @@ function ScanPage() {
                     onClick={() => {
                       setError(null)
                       setShowManualInput(false)
-                    }} 
-                    className="btn btn-secondary w-full"
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      backgroundColor: '#f3f4f6',
+                      color: '#374151',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'backgroundColor 0.2s'
+                    }}
                   >
                     🔄 再試行
                   </button>
-                  <Link href="/" className="btn btn-secondary w-full">
+                  <Link href="/" style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '12px 24px',
+                    backgroundColor: '#f3f4f6',
+                    color: '#374151',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
+                  }}>
                     ← ホームに戻る
                   </Link>
                 </div>
@@ -265,44 +449,103 @@ function ScanPage() {
             )}
             
             {success && (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">✅</div>
-                <h3 className="text-lg font-semibold text-green-600 mb-2">
+              <div style={{ textAlign: 'center', padding: '32px 0' }}>
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
+                <h3 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: '600', 
+                  color: '#059669', 
+                  marginBottom: '8px',
+                  margin: 0
+                }}>
                   記録完了！
                 </h3>
-                <div className="alert alert-success mb-4">
+                <div style={{ 
+                  backgroundColor: '#ecfdf5', 
+                  border: '1px solid #a7f3d0', 
+                  borderRadius: '8px', 
+                  padding: '12px',
+                  color: '#059669',
+                  marginBottom: '16px'
+                }}>
                   傘の位置を正常に記録しました
                 </div>
                 
                 {locationData && (
-                  <div className="bg-gray-50 p-4 rounded-lg mb-4 text-left">
-                    <h4 className="font-semibold text-gray-700 mb-2">記録された情報</h4>
-                    <div className="space-y-1 text-sm">
-                      <div>
-                        <span className="text-gray-500">傘ID:</span>
-                        <span className="ml-2 font-medium text-blue-600">{umbrellaId}</span>
+                  <div style={{ 
+                    backgroundColor: '#f9fafb', 
+                    padding: '16px', 
+                    borderRadius: '8px', 
+                    marginBottom: '16px', 
+                    textAlign: 'left' 
+                  }}>
+                    <h4 style={{ 
+                      fontWeight: '600', 
+                      color: '#374151', 
+                      marginBottom: '8px',
+                      fontSize: '16px',
+                      margin: 0
+                    }}>記録された情報</h4>
+                    <div style={{ fontSize: '14px' }}>
+                      <div style={{ marginBottom: '4px' }}>
+                        <span style={{ color: '#6b7280' }}>傘ID:</span>
+                        <span style={{ 
+                          marginLeft: '8px', 
+                          fontWeight: '500', 
+                          color: '#2563eb' 
+                        }}>{umbrellaId}</span>
+                      </div>
+                      <div style={{ marginBottom: '4px' }}>
+                        <span style={{ color: '#6b7280' }}>緯度:</span>
+                        <span style={{ 
+                          marginLeft: '8px', 
+                          fontFamily: 'monospace' 
+                        }}>{locationData.latitude.toFixed(6)}</span>
+                      </div>
+                      <div style={{ marginBottom: '4px' }}>
+                        <span style={{ color: '#6b7280' }}>経度:</span>
+                        <span style={{ 
+                          marginLeft: '8px', 
+                          fontFamily: 'monospace' 
+                        }}>{locationData.longitude.toFixed(6)}</span>
                       </div>
                       <div>
-                        <span className="text-gray-500">緯度:</span>
-                        <span className="ml-2 font-mono">{locationData.latitude.toFixed(6)}</span>
-                      </div>
-                      <div>
-                        <span className="text-gray-500">経度:</span>
-                        <span className="ml-2 font-mono">{locationData.longitude.toFixed(6)}</span>
-                      </div>
-                      <div>
-                        <span className="text-gray-500">記録時刻:</span>
-                        <span className="ml-2">{new Date().toLocaleString()}</span>
+                        <span style={{ color: '#6b7280' }}>記録時刻:</span>
+                        <span style={{ marginLeft: '8px' }}>{new Date().toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
                 )}
                 
-                <div className="space-y-2">
-                  <Link href="/umbrellas" className="btn btn-primary w-full">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <Link href="/umbrellas" style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '12px 24px',
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
+                  }}>
                     位置一覧を見る
                   </Link>
-                  <Link href="/" className="btn btn-secondary w-full">
+                  <Link href="/" style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '12px 24px',
+                    backgroundColor: '#f3f4f6',
+                    color: '#374151',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
+                  }}>
                     ← ホームに戻る
                   </Link>
                 </div>
@@ -311,8 +554,12 @@ function ScanPage() {
           </div>
         </div>
         
-        <div className="mt-6 text-center">
-          <p className="text-xs text-gray-500">
+        <div style={{ marginTop: '24px', textAlign: 'center' }}>
+          <p style={{ 
+            fontSize: '12px', 
+            color: '#6b7280',
+            margin: 0
+          }}>
             テスト環境では手動入力をご利用ください
           </p>
         </div>
