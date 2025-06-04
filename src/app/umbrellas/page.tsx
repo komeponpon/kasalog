@@ -1,10 +1,34 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import Map from '@/components/Map'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { Umbrella, List, MapPin, Home, X } from 'lucide-react'
+
+// Mapコンポーネントを動的にインポート（SSRを無効化）
+const Map = dynamic(() => import('@/components/Map'), {
+  ssr: false,
+  loading: () => (
+    <div style={{ 
+      height: '400px', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      backgroundColor: '#f9fafb',
+      borderRadius: '8px'
+    }}>
+      <div style={{
+        width: '32px',
+        height: '32px',
+        border: '4px solid #f3f4f6',
+        borderTop: '4px solid #3b82f6',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
+      }}></div>
+    </div>
+  )
+})
 
 interface UmbrellaLocation {
   id: string
@@ -22,9 +46,36 @@ function UmbrellasPage() {
   const [selectedLocation, setSelectedLocation] = useState<UmbrellaLocation | null>(null)
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list')
 
+  const fetchLocations = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const { data, error } = await supabase
+        .from('umbrella_locations')
+        .select('*')
+        .order('scanned_at', { ascending: false })
+
+      if (error) throw error
+      
+      if (data) {
+        const locationsWithAddress = await Promise.all(
+          data.map(async (location) => {
+            const address = await getAddressFromCoordinates(location.latitude, location.longitude)
+            return { ...location, address }
+          })
+        )
+        setLocations(locationsWithAddress)
+      }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      setError('位置情報の取得に失敗しました')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
   useEffect(() => {
     fetchLocations()
-  }, [])
+  }, [fetchLocations])
 
   async function getAddressFromCoordinates(lat: number, lng: number): Promise<string> {
     try {
@@ -62,33 +113,6 @@ function UmbrellasPage() {
     } catch (error) {
       console.error('住所取得エラー:', error)
       return '住所取得失敗'
-    }
-  }
-
-  async function fetchLocations() {
-    try {
-      setIsLoading(true)
-      const { data, error } = await supabase
-        .from('umbrella_locations')
-        .select('*')
-        .order('scanned_at', { ascending: false })
-
-      if (error) throw error
-      
-      if (data) {
-        const locationsWithAddress = await Promise.all(
-          data.map(async (location) => {
-            const address = await getAddressFromCoordinates(location.latitude, location.longitude)
-            return { ...location, address }
-          })
-        )
-        setLocations(locationsWithAddress)
-      }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      setError('位置情報の取得に失敗しました')
-    } finally {
-      setIsLoading(false)
     }
   }
 

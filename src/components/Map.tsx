@@ -75,12 +75,12 @@ function Map({ locations, onLocationClick }: MapProps) {
       const marker = L.marker([location.latitude, location.longitude])
         .addTo(map)
         .bindPopup(`
-          <div class="p-2">
-            <h3 class="font-bold text-blue-800">${location.umbrella_id}</h3>
-            <p class="text-sm text-gray-600">
+          <div style="padding: 8px;">
+            <h3 style="font-weight: bold; color: #1e40af; margin: 0 0 4px 0;">${location.umbrella_id}</h3>
+            <p style="font-size: 14px; color: #6b7280; margin: 0 0 4px 0;">
               記録日時: ${new Date(location.scanned_at).toLocaleString()}
             </p>
-            <p class="text-xs text-gray-500">
+            <p style="font-size: 12px; color: #9ca3af; margin: 0;">
               座標: ${location.latitude.toFixed(6)}, ${location.longitude.toFixed(6)}
             </p>
           </div>
@@ -102,11 +102,16 @@ function Map({ locations, onLocationClick }: MapProps) {
       const group = new L.FeatureGroup(newMarkers)
       map.fitBounds(group.getBounds().pad(0.1))
     }
-  }, [map, locations, onLocationClick])
+  }, [map, locations, onLocationClick, markers])
 
   return (
-    <div className="w-full">
-      <div id="map" className="leaflet-container" />
+    <div style={{ width: '100%' }}>
+      <div id="map" style={{ 
+        height: '400px', 
+        width: '100%', 
+        borderRadius: '8px', 
+        zIndex: 1 
+      }} />
     </div>
   )
 }

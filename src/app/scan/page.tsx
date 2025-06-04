@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { MapPin, AlertCircle, CheckCircle, Info, RotateCcw } from 'lucide-react'
 
-function ScanPage() {
+function ScanPageContent() {
   const searchParams = useSearchParams()
   const umbrellaId = searchParams.get('umbrellaId')
   const [isLoading, setIsLoading] = useState(false)
@@ -20,8 +20,28 @@ function ScanPage() {
     longitude: number
   } | null>(null)
 
+  // 位置情報を保存
+  const saveLocation = useCallback(async (coords: { latitude: number, longitude: number }) => {
+    try {
+      setLocationData(coords)
+
+      const { error } = await supabase.from('umbrella_locations').insert({
+        umbrella_id: umbrellaId,
+        ...coords,
+        scanned_at: new Date().toISOString(),
+      })
+
+      if (error) throw error
+      setSuccess(true)
+    } catch {
+      setError('位置情報の記録に失敗しました')
+    } finally {
+      setIsLoading(false)
+    }
+  }, [umbrellaId])
+
   // 自動位置取得を試行
-  const tryAutoLocation = () => {
+  const tryAutoLocation = useCallback(() => {
     if (!umbrellaId) {
       setError('傘IDが見つかりません')
       return
@@ -55,30 +75,10 @@ function ScanPage() {
         maximumAge: 0
       }
     )
-  }
-
-  // 位置情報を保存
-  const saveLocation = async (coords: { latitude: number, longitude: number }) => {
-    try {
-      setLocationData(coords)
-
-      const { error } = await supabase.from('umbrella_locations').insert({
-        umbrella_id: umbrellaId,
-        ...coords,
-        scanned_at: new Date().toISOString(),
-      })
-
-      if (error) throw error
-      setSuccess(true)
-    } catch {
-      setError('位置情報の記録に失敗しました')
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  }, [umbrellaId, saveLocation])
 
   // 手動入力での保存
-  const handleManualSave = async () => {
+  const handleManualSave = useCallback(async () => {
     const lat = parseFloat(manualLat)
     const lng = parseFloat(manualLng)
     
@@ -95,10 +95,10 @@ function ScanPage() {
     setIsLoading(true)
     setError(null)
     await saveLocation({ latitude: lat, longitude: lng })
-  }
+  }, [manualLat, manualLng, saveLocation])
 
   // 現在位置を取得してフィールドに設定
-  const getCurrentLocationForManual = () => {
+  const getCurrentLocationForManual = useCallback(() => {
     navigator.geolocation.getCurrentPosition(
       position => {
         setManualLat(position.coords.latitude.toString())
@@ -108,10 +108,6 @@ function ScanPage() {
         alert('位置情報の取得に失敗しました')
       }
     )
-  }
-
-  useEffect(() => {
-    // 初回自動実行を削除し、手動で開始するように変更
   }, [])
 
   return (
@@ -609,6 +605,31 @@ function ScanPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+function ScanPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        backgroundColor: 'white'
+      }}>
+        <div style={{
+          width: '32px',
+          height: '32px',
+          border: '4px solid #f3f4f6',
+          borderTop: '4px solid #3b82f6',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }}></div>
+      </div>
+    }>
+      <ScanPageContent />
+    </Suspense>
   )
 }
 

@@ -93,4 +93,33 @@ Next.jsについて詳しく学ぶには、以下のリソースを参照して�
 
 Next.jsアプリをデプロイする最も簡単な方法は、Next.jsの制作者による[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)を使用することです。
 
+### Vercelでのデプロイ手順
+
+1. **GitHubリポジトリをVercelに接続**
+2. **環境変数の設定**
+   
+   Vercelダッシュボードの「Settings」→「Environment Variables」で以下を設定：
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+3. **Supabase側の設定**
+   
+   Supabaseダッシュボードで以下を設定：
+   - **Authentication** → **URL Configuration**
+     - Site URL: `https://your-project-name.vercel.app`
+     - Redirect URLs: `https://your-project-name.vercel.app/**`
+
+4. **デプロイ実行**
+   
+   環境変数設定後、Vercelで再デプロイしてください。
+
+### 重要な注意点
+
+- 本番環境では必ずHTTPS（Vercel自動提供）
+- 位置情報取得にはHTTPS環境が必須
+- NFCタグには本番ドメイン（`https://your-project.vercel.app/scan?umbrellaId=XXX`）を設定
+
 詳細については、[Next.jsデプロイメントドキュメント](https://nextjs.org/docs/app/building-your-application/deploying)を確認してください。
