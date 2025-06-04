@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { MapPin, AlertCircle, CheckCircle, Info, RotateCcw } from 'lucide-react'
 
 function ScanPage() {
   const searchParams = useSearchParams()
@@ -149,7 +150,18 @@ function ScanPage() {
           <div style={{ padding: '24px' }}>
             {!isLoading && !error && !success && !showManualInput && (
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>📍</div>
+                <div style={{ 
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '80px',
+                  height: '80px',
+                  marginBottom: '16px',
+                  backgroundColor: '#eff6ff',
+                  borderRadius: '50%'
+                }}>
+                  <MapPin style={{ width: '40px', height: '40px', color: '#3b82f6' }} />
+                </div>
                 <h3 style={{ 
                   fontSize: '18px', 
                   fontWeight: '600', 
@@ -198,14 +210,19 @@ function ScanPage() {
                   marginTop: '16px', 
                   backgroundColor: '#eff6ff', 
                   padding: '12px', 
-                  borderRadius: '8px' 
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  justifyContent: 'center'
                 }}>
+                  <Info style={{ width: '16px', height: '16px', color: '#1d4ed8' }} />
                   <p style={{ 
                     fontSize: '12px', 
                     color: '#1d4ed8',
                     margin: 0
                   }}>
-                    💡 自動取得は位置情報の許可が必要です
+                    自動取得は位置情報の許可が必要です
                   </p>
                 </div>
               </div>
@@ -366,7 +383,18 @@ function ScanPage() {
             
             {error && (
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
+                <div style={{ 
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '80px',
+                  height: '80px',
+                  marginBottom: '16px',
+                  backgroundColor: '#fef2f2',
+                  borderRadius: '50%'
+                }}>
+                  <AlertCircle style={{ width: '40px', height: '40px', color: '#dc2626' }} />
+                </div>
                 <h3 style={{ 
                   fontSize: '18px', 
                   fontWeight: '600', 
@@ -424,10 +452,15 @@ function ScanPage() {
                       fontSize: '16px',
                       fontWeight: '500',
                       cursor: 'pointer',
-                      transition: 'backgroundColor 0.2s'
+                      transition: 'backgroundColor 0.2s',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
                     }}
                   >
-                    🔄 再試行
+                    <RotateCcw style={{ width: '16px', height: '16px' }} />
+                    再試行
                   </button>
                   <Link href="/" style={{
                     display: 'block',
@@ -450,7 +483,18 @@ function ScanPage() {
             
             {success && (
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
+                <div style={{ 
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '80px',
+                  height: '80px',
+                  marginBottom: '16px',
+                  backgroundColor: '#ecfdf5',
+                  borderRadius: '50%'
+                }}>
+                  <CheckCircle style={{ width: '40px', height: '40px', color: '#059669' }} />
+                </div>
                 <h3 style={{ 
                   fontSize: '18px', 
                   fontWeight: '600', 
