@@ -94,9 +94,15 @@ function UmbrellasPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen p-4 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="alert alert-error">
+      <div style={{ minHeight: '100vh', padding: '16px', backgroundColor: 'white' }}>
+        <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
+          <div style={{ 
+            backgroundColor: '#fef2f2', 
+            border: '1px solid #fecaca', 
+            borderRadius: '8px', 
+            padding: '16px',
+            color: '#dc2626'
+          }}>
             {error}
           </div>
         </div>
@@ -105,68 +111,135 @@ function UmbrellasPage() {
   }
 
   return (
-    <div className="min-h-screen p-4 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <div style={{ minHeight: '100vh', padding: '16px', backgroundColor: 'white' }}>
+      <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
         {/* ヘッダー */}
-        <div className="mb-8">
-          <div className="flex justify-end">
-            <Link href="/" className="p-2 text-gray-500 hover:text-gray-700 transition-colors">
-              <Home className="w-5 h-5" />
+        <div style={{ 
+          backgroundColor: '#ffffff', 
+          borderRadius: '12px', 
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)', 
+          padding: '24px',
+          marginBottom: '24px'
+        }}>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            marginBottom: '20px'
+          }}>
+            <h1 style={{ 
+              fontSize: '24px', 
+              fontWeight: 'bold',
+              margin: 0
+            }}>
+              傘の位置情報
+            </h1>
+            <Link href="/" style={{ 
+              padding: '8px', 
+              color: '#6b7280', 
+              textDecoration: 'none',
+              borderRadius: '6px',
+              transition: 'color 0.2s'
+            }}>
+              <Home style={{ width: '20px', height: '20px' }} />
             </Link>
           </div>
           
-          {/* タブ切り替え */}
-          <div className="border-b border-gray-200 mt-6">
-            <nav className="flex space-x-8">
-              <button
-                className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
-                  viewMode === 'list'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-                onClick={() => setViewMode('list')}
-              >
-                <List className="w-4 h-4" />
-                リスト
-              </button>
-              <button
-                className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
-                  viewMode === 'map'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-                onClick={() => setViewMode('map')}
-              >
-                <MapPin className="w-4 h-4" />
-                地図
-              </button>
-            </nav>
+          {/* 表示切り替えボタン */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 20px',
+                borderRadius: '8px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                backgroundColor: viewMode === 'list' ? '#3b82f6' : '#f3f4f6',
+                color: viewMode === 'list' ? 'white' : '#6b7280',
+                transition: 'all 0.2s'
+              }}
+              onClick={() => setViewMode('list')}
+            >
+              <List style={{ width: '16px', height: '16px' }} />
+              リスト表示
+            </button>
+            <button
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 20px',
+                borderRadius: '8px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                backgroundColor: viewMode === 'map' ? '#3b82f6' : '#f3f4f6',
+                color: viewMode === 'map' ? 'white' : '#6b7280',
+                transition: 'all 0.2s'
+              }}
+              onClick={() => setViewMode('map')}
+            >
+              <MapPin style={{ width: '16px', height: '16px' }} />
+              地図表示
+            </button>
           </div>
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center items-center py-16">
-            <div className="spinner"></div>
-            <span className="ml-3 text-gray-600">読み込み中...</span>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            padding: '64px 0',
+            flexDirection: 'column',
+            gap: '12px'
+          }}>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              border: '4px solid #f3f4f6',
+              borderTop: '4px solid #3b82f6',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite'
+            }}></div>
+            <span style={{ color: '#6b7280' }}>読み込み中...</span>
           </div>
         ) : (
           <>
             {viewMode === 'map' ? (
               /* 地図表示 */
-              <div className="card mb-8">
-                <div className="card-header">
-                  <h2 className="text-xl font-bold text-gray-800">
+              <div style={{ 
+                backgroundColor: '#ffffff', 
+                borderRadius: '12px', 
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                marginBottom: '32px'
+              }}>
+                <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
+                  <h2 style={{ 
+                    fontSize: '20px', 
+                    fontWeight: 'bold',
+                    margin: 0
+                  }}>
                     地図表示 ({locations.length}件)
                   </h2>
                 </div>
-                <div className="card-content">
+                <div style={{ padding: '24px' }}>
                   {locations.length > 0 ? (
                     <Map 
                       locations={locations} 
                       onLocationClick={setSelectedLocation}
                     />
                   ) : (
-                    <div className="text-center py-16 text-gray-500">
+                    <div style={{ 
+                      textAlign: 'center', 
+                      padding: '64px 0', 
+                      color: '#6b7280'
+                    }}>
                       まだ傘の位置が記録されていません
                     </div>
                   )}
@@ -174,41 +247,99 @@ function UmbrellasPage() {
               </div>
             ) : (
               /* リスト表示 */
-              <div className="card">
-                <div className="card-header">
-                  <h2 className="text-xl font-bold text-gray-800">
+              <div style={{ 
+                backgroundColor: '#ffffff', 
+                borderRadius: '12px', 
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+              }}>
+                <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
+                  <h2 style={{ 
+                    fontSize: '20px', 
+                    fontWeight: 'bold',
+                    margin: 0
+                  }}>
                     記録一覧 ({locations.length}件)
                   </h2>
                 </div>
-                <div className="card-content p-0">
+                <div>
                   {locations.length > 0 ? (
-                    <div className="overflow-x-auto">
-                      <table className="table">
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ 
+                        width: '100%', 
+                        borderCollapse: 'collapse',
+                        fontSize: '14px'
+                      }}>
                         <thead>
-                          <tr>
-                            <th>傘ID</th>
-                            <th>住所</th>
-                            <th>緯度</th>
-                            <th>経度</th>
-                            <th>記録日時</th>
+                          <tr style={{ backgroundColor: '#f9fafb' }}>
+                            <th style={{ 
+                              padding: '12px 16px', 
+                              textAlign: 'left', 
+                              fontWeight: '600',
+                              color: '#374151',
+                              borderBottom: '1px solid #e5e7eb'
+                            }}>傘ID</th>
+                            <th style={{ 
+                              padding: '12px 16px', 
+                              textAlign: 'left', 
+                              fontWeight: '600',
+                              color: '#374151',
+                              borderBottom: '1px solid #e5e7eb'
+                            }}>住所</th>
+                            <th style={{ 
+                              padding: '12px 16px', 
+                              textAlign: 'left', 
+                              fontWeight: '600',
+                              color: '#374151',
+                              borderBottom: '1px solid #e5e7eb'
+                            }}>緯度</th>
+                            <th style={{ 
+                              padding: '12px 16px', 
+                              textAlign: 'left', 
+                              fontWeight: '600',
+                              color: '#374151',
+                              borderBottom: '1px solid #e5e7eb'
+                            }}>経度</th>
+                            <th style={{ 
+                              padding: '12px 16px', 
+                              textAlign: 'left', 
+                              fontWeight: '600',
+                              color: '#374151',
+                              borderBottom: '1px solid #e5e7eb'
+                            }}>記録日時</th>
                           </tr>
                         </thead>
                         <tbody>
                           {locations.map((location) => (
-                            <tr key={location.id}>
-                              <td className="font-medium text-blue-600">
+                            <tr key={location.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                              <td style={{ 
+                                padding: '12px 16px',
+                                fontWeight: '500',
+                                color: '#2563eb'
+                              }}>
                                 {location.umbrella_id}
                               </td>
-                              <td className="text-sm max-w-xs">
+                              <td style={{ 
+                                padding: '12px 16px',
+                                maxWidth: '300px',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                              }}>
                                 {location.address || '取得中...'}
                               </td>
-                              <td className="font-mono text-sm">
+                              <td style={{ 
+                                padding: '12px 16px',
+                                fontFamily: 'monospace'
+                              }}>
                                 {location.latitude.toFixed(6)}
                               </td>
-                              <td className="font-mono text-sm">
+                              <td style={{ 
+                                padding: '12px 16px',
+                                fontFamily: 'monospace'
+                              }}>
                                 {location.longitude.toFixed(6)}
                               </td>
-                              <td>
+                              <td style={{ padding: '12px 16px' }}>
                                 {new Date(location.scanned_at).toLocaleString()}
                               </td>
                             </tr>
@@ -217,12 +348,29 @@ function UmbrellasPage() {
                       </table>
                     </div>
                   ) : (
-                    <div className="text-center py-16 text-gray-500">
-                      <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-gray-50 rounded-full">
-                        <Umbrella className="w-8 h-8 text-gray-400" />
+                    <div style={{ 
+                      textAlign: 'center', 
+                      padding: '64px 16px', 
+                      color: '#6b7280'
+                    }}>
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '64px',
+                        height: '64px',
+                        marginBottom: '16px',
+                        backgroundColor: '#f9fafb',
+                        borderRadius: '50%'
+                      }}>
+                        <Umbrella style={{ width: '32px', height: '32px', color: '#9ca3af' }} />
                       </div>
-                      <p className="text-lg mb-2">まだ傘の位置が記録されていません</p>
-                      <p className="text-sm">NFCタグをスキャンして位置を記録してみましょう</p>
+                      <p style={{ fontSize: '18px', marginBottom: '8px', fontWeight: '500' }}>
+                        まだ傘の位置が記録されていません
+                      </p>
+                      <p style={{ fontSize: '14px', color: '#9ca3af' }}>
+                        NFCタグをスキャンして位置を記録してみましょう
+                      </p>
                     </div>
                   )}
                 </div>
@@ -231,61 +379,101 @@ function UmbrellasPage() {
 
             {/* 選択された位置の詳細 */}
             {selectedLocation && (
-              <div className="card mt-6">
-                <div className="card-header">
-                  <h3 className="text-lg font-bold text-gray-800">
+              <div style={{ 
+                backgroundColor: '#ffffff', 
+                borderRadius: '12px', 
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                marginTop: '24px'
+              }}>
+                <div style={{ padding: '20px 24px', borderBottom: '1px solid #e5e7eb' }}>
+                  <h3 style={{ 
+                    fontSize: '18px', 
+                    fontWeight: 'bold', 
+                    color: '#111827',
+                    margin: 0
+                  }}>
                     傘の詳細情報
                   </h3>
                 </div>
-                <div className="card-content">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div style={{ padding: '24px' }}>
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+                    gap: '24px'
+                  }}>
                     <div>
-                      <h4 className="font-semibold text-gray-700 mb-2">基本情報</h4>
-                      <div className="space-y-2 text-sm">
-                        <div>
-                          <span className="text-gray-500">傘ID:</span>
-                          <span className="ml-2 font-medium text-blue-600">
+                      <h4 style={{ 
+                        fontWeight: '600', 
+                        color: '#374151', 
+                        marginBottom: '12px',
+                        fontSize: '16px'
+                      }}>基本情報</h4>
+                      <div style={{ fontSize: '14px' }}>
+                        <div style={{ marginBottom: '8px' }}>
+                          <span style={{ color: '#6b7280' }}>傘ID:</span>
+                          <span style={{ 
+                            marginLeft: '8px', 
+                            fontWeight: '500', 
+                            color: '#2563eb'
+                          }}>
                             {selectedLocation.umbrella_id}
                           </span>
                         </div>
                         <div>
-                          <span className="text-gray-500">記録日時:</span>
-                          <span className="ml-2">
+                          <span style={{ color: '#6b7280' }}>記録日時:</span>
+                          <span style={{ marginLeft: '8px' }}>
                             {new Date(selectedLocation.scanned_at).toLocaleString()}
                           </span>
                         </div>
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-700 mb-2">位置情報</h4>
-                      <div className="space-y-2 text-sm">
-                        <div>
-                          <span className="text-gray-500">住所:</span>
-                          <span className="ml-2">
+                      <h4 style={{ 
+                        fontWeight: '600', 
+                        color: '#374151', 
+                        marginBottom: '12px',
+                        fontSize: '16px'
+                      }}>位置情報</h4>
+                      <div style={{ fontSize: '14px' }}>
+                        <div style={{ marginBottom: '8px' }}>
+                          <span style={{ color: '#6b7280' }}>住所:</span>
+                          <span style={{ marginLeft: '8px' }}>
                             {selectedLocation.address || '取得中...'}
                           </span>
                         </div>
-                        <div>
-                          <span className="text-gray-500">緯度:</span>
-                          <span className="ml-2 font-mono">
+                        <div style={{ marginBottom: '8px' }}>
+                          <span style={{ color: '#6b7280' }}>緯度:</span>
+                          <span style={{ marginLeft: '8px', fontFamily: 'monospace' }}>
                             {selectedLocation.latitude.toFixed(6)}
                           </span>
                         </div>
                         <div>
-                          <span className="text-gray-500">経度:</span>
-                          <span className="ml-2 font-mono">
+                          <span style={{ color: '#6b7280' }}>経度:</span>
+                          <span style={{ marginLeft: '8px', fontFamily: 'monospace' }}>
                             {selectedLocation.longitude.toFixed(6)}
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4">
+                  <div style={{ marginTop: '20px' }}>
                     <button
                       onClick={() => setSelectedLocation(null)}
-                      className="btn btn-close flex items-center gap-2"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 16px',
+                        backgroundColor: '#f3f4f6',
+                        color: '#374151',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                        transition: 'backgroundColor 0.2s'
+                      }}
                     >
-                      <X className="w-4 h-4" />
+                      <X style={{ width: '16px', height: '16px' }} />
                       閉じる
                     </button>
                   </div>

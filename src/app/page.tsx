@@ -2,9 +2,20 @@ import Link from 'next/link'
 
 function HomePage() {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-12">
+    <div style={{ 
+      minHeight: '100vh', 
+      backgroundColor: 'white', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      padding: '32px' 
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <h1 style={{ 
+          fontSize: '20pt', 
+          fontWeight: 'bold',
+          marginBottom: '40px' 
+        }}>
           傘ログ
         </h1>
         <Link 
